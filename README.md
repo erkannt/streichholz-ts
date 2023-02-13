@@ -9,3 +9,4 @@ Bucket list of dreams:
 - filter to subset of a tagged union
 - cond that matches against first true condition
 - generate constructors to hide tag field
+- easy matching against a union of literal or other values
