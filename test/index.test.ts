@@ -1,7 +1,7 @@
-import { hello } from '../src'
+import { hello } from "../src";
 
-describe('hello world', () => {
-	it('contains hello', () => {
-		expect(hello).toContain('hello')
-	})
-})
+describe("hello world", () => {
+  it("contains hello", () => {
+    expect(hello).toContain("hello");
+  });
+});
