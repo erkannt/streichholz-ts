@@ -1,4 +1,4 @@
-.PHONY = *
+.PHONY: *
 
 all: fix check
 
