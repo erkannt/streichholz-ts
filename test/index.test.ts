@@ -3,14 +3,14 @@ import { cond } from "../src";
 
 describe("cond", () => {
   it.failing("passes input to first condition that returns true", () => {
-    const behaviour1 = jest.fn(() => 1);
-    const behaviour2 = jest.fn(() => 1);
-    const defaultBehaviour = jest.fn(() => 1);
+    const behaviour1 = jest.fn(() => undefined);
+    const behaviour2 = jest.fn(() => undefined);
+    const defaultBehaviour = jest.fn(() => undefined);
     const input = 5;
 
     pipe(
       input,
-      cond<number>(
+      cond(
         [
           [(n) => n != input, behaviour1],
           [(n) => n == input, behaviour2],

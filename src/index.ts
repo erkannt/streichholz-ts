@@ -1,11 +1,10 @@
-import { Lazy } from "fp-ts/lib/function";
 import { Predicate } from "fp-ts/lib/Predicate";
 
-type Cond = <A>(
-  cases: ReadonlyArray<[Predicate<A>, (a: A) => A]>,
-  defaultBehaviour: (a: A) => A
-) => (input: A) => A;
+type Cond = <A, B>(
+  cases: ReadonlyArray<[Predicate<A>, (a: A) => B]>,
+  defaultBehaviour: (a: A) => B
+) => (input: A) => B;
 
-export const cond: Cond = () => (input) => {
-  return input;
+export const cond: Cond = (cases, defaultBehaviour) => (input) => {
+  return defaultBehaviour(input);
 };
