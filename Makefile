@@ -1,5 +1,7 @@
 .PHONY = *
 
+all: fix check
+
 check: test lint format
 
 test:
