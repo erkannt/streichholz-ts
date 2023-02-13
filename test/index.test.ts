@@ -1,5 +1,5 @@
 import { pipe } from "fp-ts/function";
-import { cond } from "../src";
+import { cond, match } from "../src";
 
 describe("cond", () => {
   it("passes input to first condition that returns true", () => {
@@ -43,4 +43,21 @@ describe("cond", () => {
     expect(behaviour2).not.toHaveBeenCalled;
     expect(defaultBehaviour).toHaveBeenCalledWith(input);
   });
+});
+
+describe("match", () => {
+  it.failing(
+    "passes input to case whose key matches the value of the tag field",
+    () => {
+      const behaviour = jest.fn(() => undefined);
+      const input = { _tag: "foo", value: 42 };
+      pipe(
+        input,
+        match({
+          foo: behaviour,
+        })
+      );
+      expect(behaviour).toHaveBeenCalledWith(input);
+    }
+  );
 });

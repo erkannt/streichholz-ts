@@ -13,3 +13,9 @@ export const cond: Cond = (cases, defaultBehaviour) => (input) => {
   }
   return defaultBehaviour(input);
 };
+
+export const match =
+  <A>(cases: Record<string, unknown>) =>
+  (input: A) => {
+    return input;
+  };
