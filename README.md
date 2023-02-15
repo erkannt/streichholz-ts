@@ -10,3 +10,10 @@ Bucket list of dreams:
 - cond that matches against first true condition
 - generate constructors to hide tag field
 - easy matching against a union of literal or other values
+
+## Alternatives
+
+- [ts-adt](https://github.com/pfgray/ts-adt)
+- [ts-pattern](https://github.com/gvergnaud/ts-pattern)
+- [disc-union](https://github.com/BobbyGerace/disc-union)
+- [variant](https://github.com/paarthenon/variant)
