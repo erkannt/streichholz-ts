@@ -24,6 +24,13 @@ type Match = <
   discriminant: D
 ) => (input: A) => MakeReturns<D, A, M>;
 
+type MakeMatch = <D extends string>(discriminant: D)
+=> < A extends Record<D, string>, M extends MakeMatchObj<D, A, unknown> >(cases: M)
+=> (input: A)
+=> MakeReturns<D, A, M>;
+
+export const makeMatch: MakeMatch = (discriminant) => (cases) => match(cases, discriminant)
+
 export const match: Match = (cases, discriminant) => (input) => {
   return cases[input[discriminant]](input as any) as any;
 };
