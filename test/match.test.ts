@@ -7,12 +7,9 @@ describe("match", () => {
     const input = { _tag: "foo", value: 42 };
     pipe(
       input,
-      match(
-        {
-          foo: behaviour,
-        },
-        "_tag"
-      )
+      match({
+        foo: behaviour,
+      })
     );
     expect(behaviour).toHaveBeenCalledWith(input);
   });

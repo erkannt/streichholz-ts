@@ -15,22 +15,26 @@ type MakeReturns<
   [K in keyof M]: ReturnType<M[K]>;
 }[keyof M];
 
-type Match = <
+type MatchOn = <
   D extends string,
   A extends Record<D, string>,
   M extends MakeMatchObj<D, A, unknown>
 >(
-  matchObj: M,
-  discriminant: D
+  discriminant: D,
+  matchObj: M
 ) => (input: A) => MakeReturns<D, A, M>;
 
-type MakeMatch = <D extends string>(discriminant: D)
-=> < A extends Record<D, string>, M extends MakeMatchObj<D, A, unknown> >(cases: M)
-=> (input: A)
-=> MakeReturns<D, A, M>;
-
-export const makeMatch: MakeMatch = (discriminant) => (cases) => match(cases, discriminant)
-
-export const match: Match = (cases, discriminant) => (input) => {
+export const matchOn: MatchOn = (discriminant, cases) => (input) => {
   return cases[input[discriminant]](input as any) as any;
 };
+
+type MakeMatch = <D extends string>(
+  discriminant: D
+) => <A extends Record<D, string>, M extends MakeMatchObj<D, A, unknown>>(
+  cases: M
+) => (input: A) => MakeReturns<D, A, M>;
+
+export const makeMatch: MakeMatch = (discriminant) => (cases) =>
+  matchOn(discriminant, cases);
+
+export const match = makeMatch("_tag");

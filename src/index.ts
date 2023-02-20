@@ -1,2 +1,2 @@
 export { cond } from "./cond";
-export { match } from "./match";
+export { matchOn, match, makeMatch } from "./match";
