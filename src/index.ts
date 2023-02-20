@@ -31,10 +31,15 @@ type MakeReturns<
   [K in keyof M]: ReturnType<M[K]>;
 }[keyof M];
 
-export function match<
+type Match = <
   D extends string,
   A extends Record<D, string>,
   M extends MakeMatchObj<D, A, unknown>
->(cases: M, discriminant: D): (input: A) => MakeReturns<D, A, M> {
-  return (input) => cases[input[discriminant]](input as any) as any;
-}
+>(
+  matchObj: M,
+  discriminant: D
+) => (input: A) => MakeReturns<D, A, M>;
+
+export const match: Match = (cases, discriminant) => (input) => {
+  return cases[input[discriminant]](input as any) as any;
+};
