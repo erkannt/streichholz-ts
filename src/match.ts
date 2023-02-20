@@ -1,28 +1,28 @@
-type MakeADTMember<D extends string, ADT, Type extends string> = Extract<
-  ADT,
-  Record<D, Type>
+type MakeADTMember<T extends string, U, K extends string> = Extract<
+  U,
+  Record<T, K>
 >;
 
-type MakeMatchObj<D extends string, ADT extends Record<D, string>, Z> = {
-  [K in ADT[D]]: (v: MakeADTMember<D, ADT, K>) => Z;
+type MakeCasesObj<T extends string, U extends Record<T, string>, Z> = {
+  [K in U[T]]: (v: MakeADTMember<T, U, K>) => Z;
 };
 
 type MakeReturns<
   D extends string,
-  ADT extends Record<D, string>,
-  M extends MakeMatchObj<D, ADT, unknown>
+  U extends Record<D, string>,
+  M extends MakeCasesObj<D, U, unknown>
 > = {
   [K in keyof M]: ReturnType<M[K]>;
 }[keyof M];
 
 type MatchOn = <
-  D extends string,
-  A extends Record<D, string>,
-  M extends MakeMatchObj<D, A, unknown>
+  T extends string,
+  A extends Record<T, string>,
+  C extends MakeCasesObj<T, A, unknown>
 >(
-  discriminant: D,
-  matchObj: M
-) => (input: A) => MakeReturns<D, A, M>;
+  discriminant: T,
+  matchObj: C
+) => (input: A) => MakeReturns<T, A, C>;
 
 export const matchOn: MatchOn = (discriminant, cases) => (input) => {
   return cases[input[discriminant]](input as any) as any;
@@ -30,9 +30,9 @@ export const matchOn: MatchOn = (discriminant, cases) => (input) => {
 
 type MakeMatch = <D extends string>(
   discriminant: D
-) => <A extends Record<D, string>, M extends MakeMatchObj<D, A, unknown>>(
-  cases: M
-) => (input: A) => MakeReturns<D, A, M>;
+) => <A extends Record<D, string>, C extends MakeCasesObj<D, A, unknown>>(
+  cases: C
+) => (input: A) => MakeReturns<D, A, C>;
 
 export const makeMatch: MakeMatch = (discriminant) => (cases) =>
   matchOn(discriminant, cases);
