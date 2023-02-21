@@ -1,10 +1,11 @@
-import { pipe } from "fp-ts/function";
+import { flip, pipe } from "fp-ts/function";
 import { match, matchOn } from "../src";
+import { expectTypeOf } from "expect-type";
 
 describe("match", () => {
   it("passes input to case whose key matches the value of the '_tag' field", () => {
     const behaviour = jest.fn(() => undefined);
-    const input = { _tag: "foo", value: 42 };
+    const input = { _tag: "foo" };
     pipe(
       input,
       match({
@@ -12,6 +13,16 @@ describe("match", () => {
       })
     );
     expect(behaviour).toHaveBeenCalledWith(input);
+  });
+
+  it.skip("ensures that cases are exhaustive", () => {
+    type Input = { _tag: "foo" } | { _tag: "bar" };
+    const input: Input = { _tag: "foo" };
+    const fnExpectingCases = flip(match)(input);
+    type Cases = Parameters<typeof fnExpectingCases>;
+    type Tags = keyof Cases[0];
+    // @ts-expect-error
+    expectTypeOf<Tags>().toEqualTypeOf<["foo", "bar"]>();
   });
 });
 
