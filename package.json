@@ -1,13 +1,16 @@
 {
   "name": "streichholz-ts",
   "version": "0.1.0",
-  "description": "pattern matching library",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "description": "Pattern matching and related helpers designed to play nice with fp-ts",
+  "repository": "github:erkannt/streichholz-ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {},
   "license": "MIT",
+  "dependencies": {
+    "fp-ts": "^2.13.1"
+  },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
     "@types/jest": "^29.4.0",
@@ -16,7 +19,6 @@
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "expect-type": "^0.15.0",
-    "fp-ts": "^2.13.1",
     "jest": "^29.4.2",
     "prettier": "^2.8.4",
     "ts-jest": "^29.0.5",
