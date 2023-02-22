@@ -1,7 +1,7 @@
 import { pipe } from "fp-ts/function";
-import { cond } from "../src";
+import { condP } from "../src";
 
-describe("cond", () => {
+describe("condP", () => {
   it("passes input to first condition that returns true", () => {
     const behaviour1 = jest.fn(() => undefined);
     const behaviour2 = jest.fn(() => undefined);
@@ -10,7 +10,7 @@ describe("cond", () => {
 
     pipe(
       input,
-      cond(
+      condP(
         [
           [(n) => n != input, behaviour1],
           [(n) => n == input, behaviour2],
@@ -31,7 +31,7 @@ describe("cond", () => {
 
     pipe(
       input,
-      cond(
+      condP(
         [
           [(n) => false, behaviour1],
           [(n) => false, behaviour2],
