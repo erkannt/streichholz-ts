@@ -2,19 +2,14 @@
 This code is based on pfgray/ts-adt (MIT License)
 */
 
-type MakeADTMember<T extends string, U, K extends string> = Extract<
-  U,
-  Record<T, K>
->;
-
-type MakeCasesObj<T extends string, U extends Record<T, string>, Z> = {
-  [K in U[T]]: (v: MakeADTMember<T, U, K>) => Z;
+type MakeCases<T extends string, U extends Record<T, string>, Z> = {
+  [K in U[T]]: (v: Extract<U, Record<T, K>>) => Z;
 };
 
 type MakeReturns<
   D extends string,
   U extends Record<D, string>,
-  M extends MakeCasesObj<D, U, unknown>
+  M extends MakeCases<D, U, unknown>
 > = {
   [K in keyof M]: ReturnType<M[K]>;
 }[keyof M];
@@ -22,7 +17,7 @@ type MakeReturns<
 type MatchOn = <
   T extends string,
   A extends Record<T, string>,
-  C extends MakeCasesObj<T, A, unknown>
+  C extends MakeCases<T, A, unknown>
 >(
   discriminant: T,
   matchObj: C
@@ -34,7 +29,7 @@ export const matchOn: MatchOn = (discriminant, cases) => (input) => {
 
 type MakeMatch = <D extends string>(
   discriminant: D
-) => <A extends Record<D, string>, C extends MakeCasesObj<D, A, unknown>>(
+) => <A extends Record<D, string>, C extends MakeCases<D, A, unknown>>(
   cases: C
 ) => (input: A) => MakeReturns<D, A, C>;
 
