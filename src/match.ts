@@ -1,3 +1,7 @@
+/*
+This code is based on pfgray/ts-adt (MIT License)
+*/
+
 type MakeADTMember<T extends string, U, K extends string> = Extract<
   U,
   Record<T, K>
