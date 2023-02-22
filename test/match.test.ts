@@ -27,6 +27,18 @@ describe("match", () => {
     type Cases = Parameters<typeof fnExpectingCases>;
     expectTypeOf<Cases[0]>().toEqualTypeOf<ExhaustiveCases>();
   });
+
+  it("has a union of the return types of all cases as its return type", () => {
+    const input = { _tag: "foo" };
+    const matchResult = pipe(
+      input as Input,
+      match({
+        foo: () => 42,
+        bar: () => "hello",
+      })
+    );
+    expectTypeOf(matchResult).toEqualTypeOf<number | string>;
+  });
 });
 
 describe("matchOn", () => {
