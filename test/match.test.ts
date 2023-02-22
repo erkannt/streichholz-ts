@@ -3,9 +3,9 @@ import { match, matchOn } from "../src";
 import { expectTypeOf } from "expect-type";
 
 describe("match", () => {
+  type Input = { _tag: "foo" } | { _tag: "bar" };
   it("passes input to case whose key matches the value of the '_tag' field", () => {
     const behaviour = jest.fn(() => undefined);
-    type Input = { _tag: "foo" } | { _tag: "bar" };
     const input = { _tag: "foo" };
     pipe(
       input as Input,
@@ -18,7 +18,6 @@ describe("match", () => {
   });
 
   it("ensures that cases are exhaustive", () => {
-    type Input = { _tag: "foo" } | { _tag: "bar" };
     type ExhaustiveCases = {
       foo: (v: { _tag: "foo" }) => unknown;
       bar: (v: { _tag: "bar" }) => unknown;
