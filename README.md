@@ -4,10 +4,11 @@ Bucket list of dreams:
 
 - [x] plays nice with fp-ts pipes
 - [x] exhaustiveness check by compiler
-- partial matching with a default case
+- [ ] partial matching with a default case
 - ~~tag field for matching against tagged union can be passed as an optional argument~~ (not possible as generics can't have defaults)
 - [ ] filter to subset of a tagged union
-- [x] cond that matches against first true condition
+- [x] `cond` that matches against first true condition
+- [ ] `cond` that can check exhaustiveness by using `Refinements`
 - [ ] generate constructors to hide tag field
 - [ ] easy matching against a union of literal or other values
 
