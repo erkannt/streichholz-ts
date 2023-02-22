@@ -17,3 +17,6 @@ format:
 fix:
 	npx eslint --fix
 	npx prettier --write .
+
+build:
+	npx tsc --project tsconfig.build.json
