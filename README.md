@@ -11,6 +11,7 @@ Bucket list of dreams:
 - [ ] `cond` that can check exhaustiveness by using `Refinements`
 - [ ] generate constructors to hide tag field
 - [ ] easy matching against a union of literal or other values
+- [ ] generic typeguard
 
 ## Alternatives
 
