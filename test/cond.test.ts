@@ -48,7 +48,7 @@ describe("condP", () => {
 });
 
 describe("cond", () => {
-  it.failing("passes input to first condition that returns true", () => {
+  it("passes input to first condition that returns true", () => {
     const behaviour1 = jest.fn(() => undefined);
     const behaviour2 = jest.fn(() => undefined);
     type Input = number | string;
@@ -57,9 +57,9 @@ describe("cond", () => {
     pipe(
       input as Input,
       cond([
-        [(i): i is number => typeof i === "number", behaviour1],
+        [(i): i is string => typeof i === "string", behaviour1],
         // @ts-expect-error
-        [(i): i is string => typeof i === "string", behaviour2],
+        [(i): i is number => typeof i === "number", behaviour2],
       ])
     );
     expect(behaviour1).not.toHaveBeenCalled;
