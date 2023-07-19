@@ -19,3 +19,4 @@ Bucket list of dreams:
 - [ts-pattern](https://github.com/gvergnaud/ts-pattern)
 - [disc-union](https://github.com/BobbyGerace/disc-union)
 - [variant](https://github.com/paarthenon/variant)
+- [effect-ts/match](https://github.com/Effect-TS/match)
