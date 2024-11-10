@@ -1,11 +1,15 @@
-.PHONY: all check test lint format fix build
+.PHONY: all check test type-test lint format fix build
 
 all: fix check
 
-check: test lint format
+check: test lint format type-test
 
 test: node_modules
 	npx jest
+
+type-test: node_modules
+	npx tsc --emitDeclarationOnly --declaration --outDir dist src/index.ts
+	npx tsd
 
 lint: node_modules
 	npx tsc --noEmit
