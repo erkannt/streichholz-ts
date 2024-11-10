@@ -27,16 +27,10 @@ describe("tagged-union", () => {
   });
 
   describe("makeTaggedConstructors", () => {
-    it.todo("returns the correct type");
-
     it("produces constructors that add the right tag", () => {
       expect(TaggedUnion.Bar(42)._tag).toBe("Bar");
       expect(TaggedUnion.Foo()._tag).toBe("Foo");
     });
-
-    it.todo(
-      "produces constructors that enforce passing valid input to the selected constructor"
-    );
   });
 
   describe("MakeTaggedUnion", () => {
