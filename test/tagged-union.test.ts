@@ -2,14 +2,15 @@ import { pipe } from "fp-ts/lib/function";
 import { makeTaggedConstructors } from "../src/tagged-union";
 import { match } from "../src";
 
+const constructors = {
+  Foo: () => ({}),
+  Bar: (value: number) => ({ value }),
+};
+const TaggedUnion = makeTaggedConstructors(constructors);
+
 describe("tagged-union", () => {
   it("plays nice with match", () => {
-    const constructors = {
-      Foo: () => ({}),
-      Bar: (value: number) => ({ value }),
-    };
     const onBar = jest.fn(() => {});
-    const TaggedUnion = makeTaggedConstructors(constructors);
     pipe(
       42,
       TaggedUnion.Bar,
@@ -22,7 +23,10 @@ describe("tagged-union", () => {
 
   describe("makeTaggedConstructors", () => {
     it.todo("returns the correct type");
-    it.todo("produces constructors that add the right tag");
+    it("produces constructors that add the right tag", () => {
+      expect(TaggedUnion.Bar(42)._tag).toBe("Bar");
+      expect(TaggedUnion.Foo()._tag).toBe("Foo");
+    });
     it.todo(
       "produces constructors that enforce passing valid input to the selected constructor"
     );
