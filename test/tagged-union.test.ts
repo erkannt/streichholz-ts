@@ -1,4 +1,4 @@
-describe('construct-union', () => {
+describe('tagged-union', () => {
 	it.todo('plays nice with match')
 	describe('makeTaggedConstructors', () => {
 		it.todo('returns the correct type')
