@@ -13,7 +13,9 @@ type TaggedConstructors<
   [K in keyof T]: (...args: Parameters<T[K]>) => ReturnType<T[K]> & { _tag: K };
 };
 
-type Member<T extends { _tag: string }, K extends T["_tag"]> = T & { _tag: K };
+export type Member<T extends { _tag: string }, K extends T["_tag"]> = T & {
+  _tag: K;
+};
 
 type Values<T extends { _tag: string }> = Omit<T, "_tag">;
 
