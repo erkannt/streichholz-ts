@@ -68,6 +68,5 @@ describe("tagged-union", () => {
   });
   describe("MakeTaggedUnion", () => {
     it.todo("returns the correct type");
-    it.todo("any single member satisfies the tagged union");
   });
 });

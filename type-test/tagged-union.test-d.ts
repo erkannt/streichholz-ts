@@ -20,3 +20,11 @@ expectError(mkTaggedUnion["Bar"]("not a number"));
 // access to non existent tag prevented at type level
 type TaggedUnion = MakeTaggedUnion<typeof constructors>;
 expectError((input: Member<TaggedUnion, "NotOneOfTheValidTags">) => {});
+
+// any single member can be assigned to the union
+expectAssignable<(input: Member<TaggedUnion, "Bar">) => void>(
+  (input: TaggedUnion) => {}
+);
+expectAssignable<(input: Member<TaggedUnion, "Foo">) => void>(
+  (input: TaggedUnion) => {}
+);
