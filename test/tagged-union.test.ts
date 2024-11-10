@@ -1,6 +1,7 @@
 import { pipe } from "fp-ts/lib/function";
-import { makeTaggedConstructors } from "../src/tagged-union";
+import { makeTaggedConstructors, MakeTaggedUnion } from "../src/tagged-union";
 import { match } from "../src";
+import { expectTypeOf } from "expect-type";
 
 const constructors = {
   Foo: () => ({}),
@@ -23,17 +24,28 @@ describe("tagged-union", () => {
 
   describe("makeTaggedConstructors", () => {
     it.todo("returns the correct type");
+
     it("produces constructors that add the right tag", () => {
       expect(TaggedUnion.Bar(42)._tag).toBe("Bar");
       expect(TaggedUnion.Foo()._tag).toBe("Foo");
     });
+
     it.todo(
       "produces constructors that enforce passing valid input to the selected constructor"
     );
   });
+
   describe("MakeTaggedUnion", () => {
-    it.todo("returns the correct type");
+    type ManuallyConstructedTaggedUnion =
+      | { _tag: "Foo" }
+      | { _tag: "Bar"; value: number };
+    type TaggedUnion = MakeTaggedUnion<typeof constructors>;
+
+    it("returns the correct type", () => {
+      expectTypeOf<TaggedUnion>().toEqualTypeOf<ManuallyConstructedTaggedUnion>();
+    });
   });
+
   describe("Member", () => {
     it.todo("returns the type of the selected member including the tag");
     it.todo("prevents access to members that are not part of the tagged union");
