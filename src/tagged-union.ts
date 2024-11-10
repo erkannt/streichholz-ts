@@ -1,4 +1,4 @@
-import { pipe } from "fp-ts/lib/function";
+import { flow, pipe } from "fp-ts/lib/function";
 import * as R from "fp-ts/Record";
 
 export type MakeTaggedUnion<
@@ -17,9 +17,18 @@ type Member<T extends { _tag: string }, K extends T["_tag"]> = T & { _tag: K };
 
 type Values<T extends { _tag: string }> = Omit<T, "_tag">;
 
-export declare function makeTaggedConstructors<
+export const makeTaggedConstructors = <
   A extends Record<string, (...args: any[]) => Record<string, unknown>>
->(taglessConstructors: A): TaggedConstructors<A>;
+>(
+  taglessConstructors: A
+): TaggedConstructors<A> =>
+  pipe(
+    taglessConstructors,
+    R.mapWithIndex((key, constructor) =>
+      flow(constructor, (partial) => ({ ...partial, _tag: key }))
+    ),
+    (taggedContructors) => taggedContructors as unknown as TaggedConstructors<A>
+  );
 
 const constructors = {
   Foo: () => ({}),
