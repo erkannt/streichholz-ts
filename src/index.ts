@@ -1,7 +1,3 @@
 export { condP } from "./cond";
 export { matchOn, match, makeMatch } from "./match";
-export {
-  makeTaggedConstructors,
-  MakeTaggedUnion,
-  Member,
-} from "./tagged-union";
+export { toTaggedContructors, TaggedUnion, Member } from "./tagged-union";

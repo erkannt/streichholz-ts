@@ -1,24 +1,20 @@
 import { pipe } from "fp-ts/lib/function";
-import {
-  makeTaggedConstructors,
-  MakeTaggedUnion,
-  Member,
-} from "../src/tagged-union";
+import { toTaggedContructors, Member, TaggedUnion } from "../src/tagged-union";
 import { match } from "../src";
 import { expectTypeOf } from "expect-type";
 
-const constructors = {
+const exampleConstructors = {
   Foo: () => ({}),
   Bar: (value: number) => ({ value }),
 };
-const TaggedUnion = makeTaggedConstructors(constructors);
+const mkExampleTaggedUnion = toTaggedContructors(exampleConstructors);
 
 describe("tagged-union", () => {
   it("plays nice with match", () => {
     const onBar = jest.fn(() => {});
     pipe(
       42,
-      TaggedUnion.Bar,
+      mkExampleTaggedUnion.Bar,
       match({
         Bar: onBar,
       })
@@ -28,36 +24,32 @@ describe("tagged-union", () => {
 
   describe("makeTaggedConstructors", () => {
     it("produces constructors that add the right tag", () => {
-      expect(TaggedUnion.Bar(42)._tag).toBe("Bar");
-      expect(TaggedUnion.Foo()._tag).toBe("Foo");
+      expect(mkExampleTaggedUnion.Bar(42)._tag).toBe("Bar");
+      expect(mkExampleTaggedUnion.Foo()._tag).toBe("Foo");
     });
   });
 
   describe("MakeTaggedUnion", () => {
-    type ManuallyConstructedTaggedUnion =
-      | { _tag: "Foo" }
-      | { _tag: "Bar"; value: number };
-    type TaggedUnion = MakeTaggedUnion<typeof constructors>;
+    type ExpectedTaggedUnion = { _tag: "Foo" } | { _tag: "Bar"; value: number };
+    type ExampleTaggedUnion = TaggedUnion<typeof exampleConstructors>;
 
     it("returns the correct type", () => {
-      expectTypeOf<TaggedUnion>().toEqualTypeOf<ManuallyConstructedTaggedUnion>();
+      expectTypeOf<ExampleTaggedUnion>().toEqualTypeOf<ExpectedTaggedUnion>();
     });
   });
 
   describe("Member", () => {
-    type TaggedUnion = MakeTaggedUnion<typeof constructors>;
+    type ExampleTaggedUnion = TaggedUnion<typeof exampleConstructors>;
 
     it("returns the type of the selected member including the tag", () => {
-      expectTypeOf<Member<TaggedUnion, "Foo">>().toEqualTypeOf<{
+      expectTypeOf<Member<ExampleTaggedUnion, "Foo">>().toEqualTypeOf<{
         _tag: "Foo";
       }>();
-      expectTypeOf<Member<TaggedUnion, "Bar">>().toEqualTypeOf<{
+      expectTypeOf<Member<ExampleTaggedUnion, "Bar">>().toEqualTypeOf<{
         _tag: "Bar";
         value: number;
       }>();
     });
-
-    it.todo("prevents access to members that are not part of the tagged union");
   });
 
   describe("Values", () => {

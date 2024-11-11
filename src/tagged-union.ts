@@ -1,7 +1,7 @@
 import { flow, pipe } from "fp-ts/lib/function";
 import * as R from "fp-ts/Record";
 
-export type MakeTaggedUnion<
+export type TaggedUnion<
   T extends Record<string, (...args: any[]) => Record<string, unknown>>
 > = {
   [K in keyof T]: { _tag: K } & ReturnType<T[K]>;
@@ -19,7 +19,7 @@ export type Member<T extends { _tag: string }, K extends T["_tag"]> = T & {
 
 type Values<T extends { _tag: string }> = Omit<T, "_tag">;
 
-export const makeTaggedConstructors = <
+export const toTaggedContructors = <
   A extends Record<string, (...args: any[]) => Record<string, unknown>>
 >(
   taglessConstructors: A
@@ -37,8 +37,8 @@ const constructors = {
   Bar: (value: number) => ({ value }),
 };
 
-const FooOrBar = makeTaggedConstructors(constructors);
-type FooOrBar = MakeTaggedUnion<typeof constructors>;
+const FooOrBar = toTaggedContructors(constructors);
+type FooOrBar = TaggedUnion<typeof constructors>;
 
 type Bar = Member<FooOrBar, "Bar">;
 type BarValues = Values<Bar>;
