@@ -17,8 +17,6 @@ export type Member<T extends { _tag: string }, K extends T["_tag"]> = T & {
   _tag: K;
 };
 
-type Values<T extends { _tag: string }> = Omit<T, "_tag">;
-
 export const toTaggedContructors = <
   A extends Record<string, (...args: any[]) => Record<string, unknown>>
 >(
@@ -41,6 +39,5 @@ const FooOrBar = toTaggedContructors(constructors);
 type FooOrBar = TaggedUnion<typeof constructors>;
 
 type Bar = Member<FooOrBar, "Bar">;
-type BarValues = Values<Bar>;
 
 const bar: Bar = pipe(42, FooOrBar.Bar);
