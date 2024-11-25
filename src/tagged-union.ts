@@ -29,15 +29,3 @@ export const toTaggedContructors = <
     ),
     (taggedContructors) => taggedContructors as unknown as TaggedConstructors<A>
   );
-
-const constructors = {
-  Foo: () => ({}),
-  Bar: (value: number) => ({ value }),
-};
-
-const FooOrBar = toTaggedContructors(constructors);
-type FooOrBar = TaggedUnion<typeof constructors>;
-
-type Bar = Member<FooOrBar, "Bar">;
-
-const bar: Bar = pipe(42, FooOrBar.Bar);
