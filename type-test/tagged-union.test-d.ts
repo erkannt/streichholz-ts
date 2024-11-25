@@ -9,20 +9,17 @@ type ExampleTaggedUnion = TaggedUnion<typeof constructors>;
 
 // MakeTaggedUnion happy path
 type ExpectedTaggedUnion = { _tag: "Foo" } | { _tag: "Bar"; value: number };
-expectAssignable<(a: ExpectedTaggedUnion) => void>(
-  (a: ExampleTaggedUnion) => {}
-);
+declare const example: ExampleTaggedUnion
+expectAssignable<ExpectedTaggedUnion>(example);
 
 // Member happy path
-expectAssignable<(a: Member<ExampleTaggedUnion, "Foo">) => void>(
-  (a: { _tag: "Foo" }) => {}
-);
-expectAssignable<(a: Member<ExampleTaggedUnion, "Bar">) => void>(
-  (a: { _tag: "Bar"; value: number }) => {}
-);
+declare const expectedFoo: {_tag: "Foo"}
+declare const expectedBar: { _tag: "Bar"; value: number }
+expectAssignable<Member<ExampleTaggedUnion, "Foo">>(expectedFoo);
+expectAssignable<Member<ExampleTaggedUnion, "Bar">>(expectedBar);
 
 // access to non existent tag prevented at type level
-expectError((input: Member<ExampleTaggedUnion, "NotOneOfTheValidTags">) => {});
+expectError((a: Member<ExampleTaggedUnion, "NotOneOfTheValidTags">) => {});
 
 // any single member can be assigned to the union
 expectAssignable<(input: Member<ExampleTaggedUnion, "Bar">) => void>(
@@ -33,12 +30,12 @@ expectAssignable<(input: Member<ExampleTaggedUnion, "Foo">) => void>(
 );
 
 // toTaggedConstructors return expected constructors with tagging
-const mkTaggedUnion = toTaggedContructors(constructors);
-expectType<() => { _tag: "Foo" }>(mkTaggedUnion["Foo"]);
+const constructMember = toTaggedContructors(constructors);
+expectType<() => { _tag: "Foo" }>(constructMember["Foo"]);
 expectAssignable<(value: number) => { _tag: "Bar"; value: number }>(
-  mkTaggedUnion["Bar"]
+  constructMember["Bar"]
 );
 
 // toTaggedConstructors produces constructors that prevent invalid inputs
-expectError(mkTaggedUnion["Foo"](42));
-expectError(mkTaggedUnion["Bar"]("not a number"));
+expectError(constructMember["Foo"](42));
+expectError(constructMember["Bar"]("not a number"));
